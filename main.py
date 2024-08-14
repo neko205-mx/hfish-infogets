@@ -7,8 +7,8 @@ import json
 """
 
 def getKeyAndip():
-    ip = "123.136.94.38:4433"
-    key = "NqMpsJLHKWReHXOJspFBUjVnbIEndbqQqelrleYBRKjymtnhLyYqyeFTGOuooYpk"
+    ip = ""
+    key = ""
     return ip,key
 # 获取时间戳 当前时间点往前24小时
 def timeStart():
