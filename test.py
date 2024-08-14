@@ -26,4 +26,4 @@ attack_ips2 = parsed_json['response_code']
 attack_ips3 = parsed_json['verbose_msg']
 
 print(attack_ips,attack_ips2,attack_ips3)  # 输出: ['198.235.24.254', '193.201.9.156', '205.210.31.144', '45.83.65.238', '172.70.86.15']
-print(type(attack_ips))  # 输出: <class 'list'>
+print(type(attack_ips)) 
