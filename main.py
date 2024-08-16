@@ -33,7 +33,24 @@ def main():
             # print(json_date)
             
     elif user_input == "2":
+        json_date = json.loads(apiGetServerStatus())
         print("获取服务器状态")
+
+        if json_date['response_code'] == 0:
+            print("获取成功")
+            online_date = json_date['data']['total_online_honeypots']
+            offine_date = json_date['data']['total_offline_honeypots']
+
+            print("在线设备：" + str(online_date))
+            print("离线设备：" + str(offine_date))
+            if offine_date == 0:
+                print("蜜罐运行正常")
+            else:
+                print("请检查离线蜜罐状态")
+
+        else:
+            print("获取失败")
+            print(json_date)
     else:
         print("输入错误")
 
@@ -60,6 +77,15 @@ def apiGetHackip():
     # 忽略证书验证
     response = requests.request("POST", url, headers=headers, data=payload, verify=False)
     return response.text
+
+
+def apiGetServerStatus():
+    ip,key = getKeyAndip()
+    # 获取服务器状态
+    url = f"https://{ip}/api/v1/hfish/sys_info?api_key={key}"
+    response = requests.request("GET", url, verify=False)
+    return response.text
+
 
 if __name__ == '__main__':
     main()
