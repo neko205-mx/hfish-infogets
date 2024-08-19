@@ -2,6 +2,7 @@ import time
 import requests
 import json
 import os
+import socket
 """
     
 """
@@ -15,7 +16,8 @@ def getKeyAndip():
 # 获取时间戳 当前时间点往前24小时
 def timeStart():
     newday = time.time()
-    oldday = int(newday) - 86400
+    # oldday = int(newday) - 86400
+    oldday = int(newday) - 10 #测试用
     newday = int(newday)
     return oldday,newday
 def main():
@@ -27,6 +29,9 @@ def main():
             print("获取成功")
             Hackips = json_date['data']['attack_ip']
             print(Hackips)
+            CheckOpen = ipCheck(Hackips)
+            print(CheckOpen)
+
             # print(json_date)
         else:
             print("获取失败")
@@ -54,6 +59,28 @@ def main():
     else:
         print("输入错误")
 
+def ipCheck(Hackips):
+    SSHopen = []
+    for i in Hackips:
+        if PortScan(i,22):
+            print(i + ":22端口开放")
+            SSHopen.append(i)
+        else:
+            print(i + ":22端口关闭")
+    return SSHopen
+
+
+def PortScan(ip,port):
+
+    socks = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    socks.settimeout(1)
+    try:
+        socks.connect((ip, port))
+        socks.close()
+        return True
+    except:
+        return False
+    
 
 def apiGetHackip():
     ip,key = getKeyAndip()
