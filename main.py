@@ -1,3 +1,4 @@
+import threading
 import time
 import requests
 import json
@@ -29,7 +30,7 @@ def main():
             print("获取成功")
             Hackips = json_date['data']['attack_ip']
             print(Hackips)
-            CheckOpen = ipCheck(Hackips)
+            CheckOpen = ipCheck(Hackips) # 调用
             print(CheckOpen)
 
             # print(json_date)
@@ -60,14 +61,16 @@ def main():
         print("输入错误")
 
 def ipCheck(Hackips):
-    SSHopen = []
+    PortOpen = {}
+    Port = [22,3306,6379,3389,1443,23]
     for i in Hackips:
-        if PortScan(i,22):
-            print(i + ":22端口开放")
-            SSHopen.append(i)
-        else:
-            print(i + ":22端口关闭")
-    return SSHopen
+        for p in Port:
+            if PortScan(i,p):
+                PortOpen[i] = p
+                print(i + ":" + str(p) + "端口开放")
+            else:
+                print(i + ":" + str(p) + "端口未开放")
+    return PortOpen
 
 
 def PortScan(ip,port):
